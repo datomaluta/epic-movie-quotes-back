@@ -23,9 +23,7 @@ class User extends Authenticatable
 	 */
 	protected $fillable = [
 		'name',
-		'email',
 		'password',
-		'is_email_verified',
 	];
 
 	/**
@@ -38,12 +36,8 @@ class User extends Authenticatable
 		'remember_token',
 	];
 
-	/**
-	 * The attributes that should be cast.
-	 *
-	 * @var array<string, string>
-	 */
-	protected $casts = [
-		'email_verified_at' => 'datetime',
-	];
+	public function emails()
+	{
+		return $this->hasMany(Email::class);
+	}
 }
