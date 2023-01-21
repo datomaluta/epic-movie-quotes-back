@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post('/register', [RegisterController::class, 'register']);
+
+Route::get('account/verify/{id}', [RegisterController::class, 'verifyMail'])->name('user.verify');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 	return $request->user();
 });
