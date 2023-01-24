@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Email extends Model
+
+class Email extends Model 
 {
 	use HasFactory;
 
@@ -18,6 +19,6 @@ class Email extends Model
 
 	public function user()
 	{
-		$this->belongsTo(User::class);
+		return $this->belongsTo(User::class);
 	}
 }

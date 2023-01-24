@@ -16,7 +16,7 @@ class RegisterController extends Controller
 
 		$user = new User([
 			'name'    => $attributes['name'],
-			'password'=> $attributes['password'],
+			'password'=> bcrypt($attributes['password']),
 		]);
 		$user->save();
 
@@ -43,6 +43,8 @@ class RegisterController extends Controller
 			{
 				$email->email_verified_at = now();
 				$email->save();
+				$verifyUser->has_verified_email = 1;
+				$verifyUser->save();
 				return response()->json(['message'=>'Email has been verified successfully'], 200);
 			}
 			else
