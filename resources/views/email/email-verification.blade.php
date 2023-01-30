@@ -21,7 +21,7 @@
         <img style="display: block; margin-left: auto; margin-right: auto;"
             src="{{ $message->embed(public_path() . '/images/quote.png') }}" alt='quote' />
         <p style="text-align: center; font-size: 12px; color:#DDCCAA; font-family: sans-serif">MOVIE QUOTES</p>
-        <p style="margin-top: 73px; margin-bottom: 24px; font-family: sans-serif">Hola Ekaterine!</p>
+        <p style="margin-top: 73px; margin-bottom: 24px; font-family: sans-serif">Hola {{ $name }}!</p>
         <p style="margin-bottom: 39px; font-family: sans-serif">Thanks for joining Movie quotes! We really appreciate
             it. Please click the
             button

@@ -27,7 +27,7 @@ class RegisterController extends Controller
 		]);
 		$email->save();
 
-		FacadesMail::to($email->email)->send(new VerifyMail($user->id));
+		FacadesMail::to($email->email)->send(new VerifyMail($user->id, $user->name));
 
 		return response()->json(['message'=>'User has been registered'], 200);
 	}

@@ -11,6 +11,7 @@ class LoginRequest extends FormRequest
 		return [
 			'email_username'            => 'required|min:3',
 			'password'                  => 'required|min:3',
+			'rememberMe'                => 'required',
 		];
 	}
 }
