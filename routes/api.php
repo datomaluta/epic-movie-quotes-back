@@ -19,7 +19,7 @@ Route::post('/forget-password', [PasswordController::class, 'sendPasswordResetEm
 
 Route::post('/reset-password/{token}', [PasswordController::class, 'setNewPassword']);
 
-Route::get('auth/google', [GoogleAuthController::class, 'redirect']);
+Route::get('auth/google', [GoogleAuthController::class, 'getRedirectUrl']);
 Route::get('auth/google/call-back', [GoogleAuthController::class, 'callbackGoogle']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

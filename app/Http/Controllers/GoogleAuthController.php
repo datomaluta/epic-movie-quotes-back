@@ -9,9 +9,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
-	public function redirect()
+	public function getRedirectUrl()
 	{
-		// info(Socialite::driver('google')->stateless()->redirect()->getTargetUrl());
 		return Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
 	}
 
@@ -19,29 +18,29 @@ class GoogleAuthController extends Controller
 	{
 		try
 		{
-			$google_user = Socialite::driver('google')->stateless()->user();
+			$googleUser = Socialite::driver('google')->stateless()->user();
 
-			$user = User::where('google_id', $google_user->getId())->first();
+			$user = User::where('google_id', $googleUser->getId())->first();
 
 			if (!$user)
 			{
-				$new_user = new User([
-					'name'              => $google_user->getName(),
-					'google_id'         => $google_user->getId(),
+				$newUser = new User([
+					'name'              => $googleUser->getName(),
+					'google_id'         => $googleUser->getId(),
 					'has_verified_email'=> 1,
 				]);
 
-				$new_user->save();
+				$newUser->save();
 
 				$email = new Email([
-					'email'     => $google_user->getEmail(),
+					'email'     => $googleUser->getEmail(),
 					'is_primary'=> 1,
-					'user_id'   => $new_user->id,
+					'user_id'   => $newUser->id,
 				]);
 
 				$email->save();
 
-				Auth::login($new_user);
+				Auth::login($newUser);
 				request()->session()->regenerate();
 				return redirect(env('APP_FRONTEND_URL') . '/news-feed')->withCookie(cookie('isLoggedIn', '1'));
 			}
