@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Models\Email;
 use App\Models\User;
+use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
 	public function login(LoginRequest $request)
 	{
 		$attributes = $request->validated();
+
+		$rememberMe = $attributes['rememberMe'];
 
 		if (filter_var($attributes['email_username'], FILTER_VALIDATE_EMAIL))
 		{
@@ -36,10 +39,10 @@ class LoginController extends Controller
 			$usernameField = $attributes['email_username'];
 		}
 
-		if (auth()->attempt(['name' => $usernameField, 'password' => $attributes['password']]))
+		if (auth()->attempt(['name' => $usernameField, 'password' => $attributes['password']], $rememberMe))
 		{
 			request()->session()->regenerate();
-			return response()->json(['message'=>'successfully logged in'], 200);
+			return response()->json(['message'=>'successfully logged in', 'user_data'=>$user], 200);
 		}
 		else
 		{
@@ -52,6 +55,7 @@ class LoginController extends Controller
 		auth()->logout();
 		request()->session()->invalidate();
 		request()->session()->regenerateToken();
-		return response(['message' => 'Logged out']);
+		$cookie = Cookie::forget('isLoggedIn');
+		return response(['message' => 'Logged out'])->withCookie($cookie);
 	}
 }

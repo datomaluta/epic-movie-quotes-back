@@ -14,9 +14,12 @@ class VerifyMail extends Mailable
 
 	public $id;
 
-	public function __construct($id)
+	public $name;
+
+	public function __construct($id, $name)
 	{
 		$this->id = $id;
+		$this->name = $name;
 	}
 
 	public function envelope()
@@ -31,7 +34,7 @@ class VerifyMail extends Mailable
 		return new Content(
 			view: 'email.email-verification',
 			with:[
-				['id'=>$this->id],
+				['id'=>$this->id, 'name'=>$this->name],
 			]
 		);
 	}
