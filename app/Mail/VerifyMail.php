@@ -12,13 +12,16 @@ class VerifyMail extends Mailable
 {
 	use Queueable, SerializesModels;
 
-	public $id;
+	public $userId;
+
+	public $emailId;
 
 	public $name;
 
-	public function __construct($id, $name)
+	public function __construct($userId, $emailId, $name)
 	{
-		$this->id = $id;
+		$this->userId = $userId;
+		$this->emailId = $emailId;
 		$this->name = $name;
 	}
 
@@ -34,7 +37,7 @@ class VerifyMail extends Mailable
 		return new Content(
 			view: 'email.email-verification',
 			with:[
-				['id'=>$this->id, 'name'=>$this->name],
+				['userId'=>$this->userId, 'emailId'=>$this->emailId, 'name'=>$this->name],
 			]
 		);
 	}

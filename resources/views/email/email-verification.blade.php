@@ -28,13 +28,14 @@
             below to verify your
             account:</p>
         <a style="background-color: #E31221; padding: 7px 13px; border-radius: 4px; color:white; text-decoration:none; font-family: sans-serif"
-            href="{{ env('APP_FRONTEND_URL') }}/verification?verify_url=account/verify/{{ $id }}">Verify
+            href="{{ env('APP_FRONTEND_URL') }}/verification?verify_url=account/verify/{{ $userId }}/{{ $emailId }}}&locale={{ app()->getLocale() }}">Verify
             account</a>
         <p style="margin-top: 40px; margin-bottom: 24px; font-family: sans-serif">If clicking doesn't work, you can try
             copying and pasting it to
             your browser:</p>
         <p style="color: #DDCCAA; margin-bottom: 40px; font-family: sans-serif">
-            {{ env('APP_FRONTEND_URL') }}/verification?verify_url=account/verify/{{ $id }}</p>
+            {{ env('APP_FRONTEND_URL') }}/verification?verify_url=account/verify/{{ $userId }}/{{ $emailId }}?locale={{ app()->getLocale() }}
+        </p>
         <p style='margin-bottom: 24px; font-family: sans-serif;'>If you have any problems, please contact us:
             support@moviequotes.ge</p>
         <p style="font-family: sans-serif">MovieQuotes Crew</p>

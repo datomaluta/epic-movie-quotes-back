@@ -16,7 +16,7 @@ class RegisterController extends Controller
 
 		$user = new User([
 			'name'    => $attributes['name'],
-			'password'=> bcrypt($attributes['password']),
+			'password'=> $attributes['password'],
 		]);
 		$user->save();
 
@@ -27,18 +27,17 @@ class RegisterController extends Controller
 		]);
 		$email->save();
 
-		FacadesMail::to($email->email)->send(new VerifyMail($user->id, $user->name));
+		FacadesMail::to($email->email)->send(new VerifyMail($user->id, $email->id, $user->name));
 
 		return response()->json(['message'=>'User has been registered'], 200);
 	}
 
-	public function verifyMail($id)
+	public function verifyMail($userId, $emailId)
 	{
-		$verifyUser = User::where('id', $id)->first();
+		$verifyUser = User::where('id', $userId)->first();
 		if (!is_null($verifyUser))
 		{
-			$emails = $verifyUser->emails;
-			$email = $emails->first();
+			$email = Email::where('id', $emailId)->first();
 			if (!$email->email_verified_at)
 			{
 				$email->email_verified_at = now();

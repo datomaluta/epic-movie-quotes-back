@@ -26,7 +26,7 @@
             button
             below to reset your password:</p>
         <a style="background-color: #E31221; padding: 7px 13px; border-radius: 4px; color:white; text-decoration:none; font-family: sans-serif"
-            href="{{ env('APP_FRONTEND_URL') }}/password-reset?token={{ $token }}">Reset
+            href="{{ env('APP_FRONTEND_URL') }}/password-reset?token={{ $token }}&locale={{ app()->getLocale() }}">Reset
         </a>
 
         <p style='margin-bottom: 24px; margin-top:24px; font-family: sans-serif;'>If you have any problems, please

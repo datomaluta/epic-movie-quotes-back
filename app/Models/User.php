@@ -25,6 +25,7 @@ class User extends Authenticatable
 		'password',
 		'has_verified_email',
 		'google_id',
+		'profile',
 	];
 
 	/**
@@ -40,5 +41,10 @@ class User extends Authenticatable
 	public function emails()
 	{
 		return $this->hasMany(Email::class);
+	}
+
+	public function setPasswordAttribute($password)
+	{
+		$this->attributes['password'] = bcrypt($password);
 	}
 }
