@@ -56,7 +56,6 @@ class LoginController extends Controller
 
 	public function logout()
 	{
-		auth()->guard('web')->logout();
 		request()->session()->invalidate();
 		request()->session()->regenerateToken();
 		$cookie = Cookie::forget('isLoggedIn');
