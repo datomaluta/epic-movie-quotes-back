@@ -6,7 +6,6 @@ use App\Http\Requests\ForgetPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Mail\ResetMail;
 use App\Models\Email;
-use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -17,6 +16,13 @@ class PasswordController extends Controller
 	public function sendPasswordResetEmail(ForgetPasswordRequest $request)
 	{
 		$attributes = $request->validated();
+
+		$alreadyInTable = DB::table('password_resets')->where('email', $attributes['email']);
+
+		if ($alreadyInTable)
+		{
+			return response()->json(['message'=>__('password.check_email')], 409);
+		}
 
 		$token = Str::random(64);
 

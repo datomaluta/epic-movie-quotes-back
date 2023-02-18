@@ -20,11 +20,11 @@ class LoginController extends Controller
 			$email = Email::where('email', $attributes['email_username'])->first();
 			if (!$email)
 			{
-				return response()->json(['message'=>'incorrect credentials'], 401);
+				return response()->json(['message'=>__('auth.failed')], 401);
 			}
 			elseif (!$email->email_verified_at)
 			{
-				return response()->json(['message'=>'Your email is not verified'], 401);
+				return response()->json(['message'=>__('auth.not_verified')], 401);
 			}
 
 			$usernameField = $email->user->name;
@@ -32,9 +32,13 @@ class LoginController extends Controller
 		else
 		{
 			$user = User::where('name', $attributes['email_username'])->first();
+			if (!$user)
+			{
+				return response()->json(['message'=>__('auth.does_not_exist')], 401);
+			}
 			if (!$user->has_verified_email)
 			{
-				return response()->json(['message'=>'Your email is not verified'], 401);
+				return response()->json(['message'=>__('auth.not_verified')], 401);
 			}
 			$usernameField = $attributes['email_username'];
 		}
@@ -42,17 +46,16 @@ class LoginController extends Controller
 		if (auth()->attempt(['name' => $usernameField, 'password' => $attributes['password']], $rememberMe))
 		{
 			request()->session()->regenerate();
-			return response()->json(['message'=>'successfully logged in', 'user_data'=>$user], 200);
+			return response()->json(['message'=>'successfully logged in'], 200);
 		}
 		else
 		{
-			return response()->json(['message'=>'incorrect credentials'], 401);
+			return response()->json(['message'=>__('auth.failed')], 401);
 		}
 	}
 
 	public function logout()
 	{
-		auth()->logout();
 		request()->session()->invalidate();
 		request()->session()->regenerateToken();
 		$cookie = Cookie::forget('isLoggedIn');
